@@ -1,0 +1,1663 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Deep_Learning_for_Audio_Signal_Processing.md</title><script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    jax: ["input/TeX","output/HTML-CSS"],
+    extensions: ["[a11y]/accessibility-menu.js"],
+    'HTML-CSS': {
+      availableFonts: [],
+      webFont: 'TeX',
+      undefinedFamily: "serif",
+      mtextFontInherit: true,
+    },
+    TeX: {
+  "Macros": {},
+  "equationNumbers": {},
+  "extensions": [
+    "AMSmath.js",
+    "AMSsymbols.js",
+    "noErrors.js",
+    "noUndefined.js"
+  ]
+},
+    showMathMenu: true
+  });
+</script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js"></script>
+    <style>.emoji {
+  max-width: 1em !important;
+}
+del {
+  text-decoration: none;
+  position: relative;
+}
+del::after {
+  border-bottom: 1px solid black;
+  content: '';
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 50%;
+}
+ul.contains-task-list li.task-list-item {
+  position: relative;
+  list-style-type: none;
+}
+ul.contains-task-list li.task-list-item input.task-list-item-checkbox {
+  position: absolute;
+  transform: translateX(-100%);
+  width: 30px;
+}
+span.critic.comment {
+  position: relative;
+}
+span.critic.comment::before {
+  content: '\1f4ac';
+  position: initial;
+}
+span.critic.comment > span {
+  display: none;
+}
+span.critic.comment:hover > span {
+  display: initial;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  border: 1px solid;
+  border-radius: 5px;
+  max-height: 4em;
+  overflow: auto;
+}
+span.critic.comment:focus > span {
+  display: initial;
+  text-decoration: underline;
+  position: initial;
+  top: auto;
+  left: auto;
+  border: initial;
+  border-radius: initial;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  background-color: transparent;
+}
+
+body {
+  padding: 2em;
+  font-size: 1.2em;
+  color: #abb2bf;
+  background-color: #282c34;
+  overflow: auto;
+}
+body > :first-child,
+body > div.update-preview > :first-child {
+  margin-top: 0;
+}
+body > p,
+body > div.update-preview > p {
+  margin-top: 0;
+  margin-bottom: 1.5em;
+}
+body > ul,
+body > div.update-preview > ul,
+body > ol,
+body > div.update-preview > ol {
+  margin-bottom: 1.5em;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  line-height: 1.2;
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+  color: #ffffff;
+}
+h1 {
+  font-size: 2.4em;
+  font-weight: 300;
+}
+h2 {
+  font-size: 1.8em;
+  font-weight: 400;
+}
+h3 {
+  font-size: 1.5em;
+  font-weight: 500;
+}
+h4 {
+  font-size: 1.2em;
+  font-weight: 600;
+}
+h5 {
+  font-size: 1.1em;
+  font-weight: 600;
+}
+h6 {
+  font-size: 1em;
+  font-weight: 600;
+}
+strong {
+  color: #ffffff;
+}
+del {
+  color: #7c879c;
+}
+a,
+a code {
+  color: #528bff;
+}
+img {
+  max-width: 100%;
+}
+blockquote {
+  margin: 1.5em 0;
+  font-size: inherit;
+  color: #7c879c;
+  border-color: #4b5362;
+  border-width: 4px;
+}
+hr {
+  margin: 3em 0;
+  border-top: 2px dashed #4b5362;
+  background: none;
+}
+table {
+  margin: 1.5em 0;
+}
+th {
+  color: #ffffff;
+}
+th,
+td {
+  padding: 0.66em 1em;
+  border: 1px solid #4b5362;
+}
+code {
+  color: #ffffff;
+  background-color: #3a3f4b;
+}
+pre.editor-colors {
+  margin: 1.5em 0;
+  padding: 1em;
+  font-size: 0.92em;
+  border-radius: 3px;
+  background-color: #31363f;
+}
+kbd {
+  color: #ffffff;
+  border: 1px solid #4b5362;
+  border-bottom: 2px solid #3e4451;
+  background-color: #3a3f4b;
+}
+
+.bracket-matcher .region {
+  border-bottom: 1px dotted lime;
+  position: absolute;
+}
+.line-number.bracket-matcher.bracket-matcher {
+  color: #abb2bf;
+  background-color: #3a3f4b;
+}
+
+.spell-check-misspelling .region {
+  border-bottom: 2px dotted rgba(255, 51, 51, 0.75);
+}
+.spell-check-corrections {
+  width: 25em !important;
+}
+
+pre.editor-colors {
+  background-color: #282c34;
+  color: #abb2bf;
+}
+pre.editor-colors .line.cursor-line {
+  background-color: rgba(153, 187, 255, 0.04);
+}
+pre.editor-colors .invisible {
+  color: #abb2bf;
+}
+pre.editor-colors .cursor {
+  border-left: 2px solid #528bff;
+}
+pre.editor-colors .selection .region {
+  background-color: #3e4451;
+}
+pre.editor-colors .bracket-matcher .region {
+  border-bottom: 1px solid #528bff;
+  box-sizing: border-box;
+}
+pre.editor-colors .invisible-character {
+  color: rgba(171, 178, 191, 0.15);
+}
+pre.editor-colors .indent-guide {
+  color: rgba(171, 178, 191, 0.15);
+}
+pre.editor-colors .wrap-guide {
+  background-color: rgba(171, 178, 191, 0.15);
+}
+pre.editor-colors .find-result .region.region.region,
+pre.editor-colors .current-result .region.region.region {
+  border-radius: 2px;
+  background-color: rgba(82, 139, 255, 0.24);
+  transition: border-color 0.4s;
+}
+pre.editor-colors .find-result .region.region.region {
+  border: 2px solid transparent;
+}
+pre.editor-colors .current-result .region.region.region {
+  border: 2px solid #528bff;
+  transition-duration: .1s;
+}
+pre.editor-colors .gutter .line-number {
+  color: #636d83;
+  -webkit-font-smoothing: antialiased;
+}
+pre.editor-colors .gutter .line-number.cursor-line {
+  color: #abb2bf;
+  background-color: #3a3f4b;
+}
+pre.editor-colors .gutter .line-number.cursor-line-no-selection {
+  background-color: transparent;
+}
+pre.editor-colors .gutter .line-number .icon-right {
+  color: #abb2bf;
+}
+pre.editor-colors .gutter:not(.git-diff-icon) .line-number.git-line-removed.git-line-removed::before {
+  bottom: -3px;
+}
+pre.editor-colors .gutter:not(.git-diff-icon) .line-number.git-line-removed::after {
+  content: "";
+  position: absolute;
+  left: 0px;
+  bottom: 0px;
+  width: 25px;
+  border-bottom: 1px dotted rgba(224, 82, 82, 0.5);
+  pointer-events: none;
+}
+pre.editor-colors .gutter .line-number.folded,
+pre.editor-colors .gutter .line-number:after,
+pre.editor-colors .fold-marker:after {
+  color: #abb2bf;
+}
+.syntax--comment {
+  color: #5c6370;
+  font-style: italic;
+}
+.syntax--comment .syntax--markup.syntax--link {
+  color: #5c6370;
+}
+.syntax--entity.syntax--name.syntax--type {
+  color: #e5c07b;
+}
+.syntax--entity.syntax--other.syntax--inherited-class {
+  color: #98c379;
+}
+.syntax--keyword {
+  color: #c678dd;
+}
+.syntax--keyword.syntax--control {
+  color: #c678dd;
+}
+.syntax--keyword.syntax--operator {
+  color: #abb2bf;
+}
+.syntax--keyword.syntax--other.syntax--special-method {
+  color: #61afef;
+}
+.syntax--keyword.syntax--other.syntax--unit {
+  color: #d19a66;
+}
+.syntax--storage {
+  color: #c678dd;
+}
+.syntax--storage.syntax--type.syntax--annotation,
+.syntax--storage.syntax--type.syntax--primitive {
+  color: #c678dd;
+}
+.syntax--storage.syntax--modifier.syntax--package,
+.syntax--storage.syntax--modifier.syntax--import {
+  color: #abb2bf;
+}
+.syntax--constant {
+  color: #d19a66;
+}
+.syntax--constant.syntax--variable {
+  color: #d19a66;
+}
+.syntax--constant.syntax--character.syntax--escape {
+  color: #56b6c2;
+}
+.syntax--constant.syntax--numeric {
+  color: #d19a66;
+}
+.syntax--constant.syntax--other.syntax--color {
+  color: #56b6c2;
+}
+.syntax--constant.syntax--other.syntax--symbol {
+  color: #56b6c2;
+}
+.syntax--variable {
+  color: #e06c75;
+}
+.syntax--variable.syntax--interpolation {
+  color: #be5046;
+}
+.syntax--variable.syntax--parameter {
+  color: #abb2bf;
+}
+.syntax--string {
+  color: #98c379;
+}
+.syntax--string > .syntax--source,
+.syntax--string .syntax--embedded {
+  color: #abb2bf;
+}
+.syntax--string.syntax--regexp {
+  color: #56b6c2;
+}
+.syntax--string.syntax--regexp .syntax--source.syntax--ruby.syntax--embedded {
+  color: #e5c07b;
+}
+.syntax--string.syntax--other.syntax--link {
+  color: #e06c75;
+}
+.syntax--punctuation.syntax--definition.syntax--comment {
+  color: #5c6370;
+}
+.syntax--punctuation.syntax--definition.syntax--method-parameters,
+.syntax--punctuation.syntax--definition.syntax--function-parameters,
+.syntax--punctuation.syntax--definition.syntax--parameters,
+.syntax--punctuation.syntax--definition.syntax--separator,
+.syntax--punctuation.syntax--definition.syntax--seperator,
+.syntax--punctuation.syntax--definition.syntax--array {
+  color: #abb2bf;
+}
+.syntax--punctuation.syntax--definition.syntax--heading,
+.syntax--punctuation.syntax--definition.syntax--identity {
+  color: #61afef;
+}
+.syntax--punctuation.syntax--definition.syntax--bold {
+  color: #e5c07b;
+  font-weight: bold;
+}
+.syntax--punctuation.syntax--definition.syntax--italic {
+  color: #c678dd;
+  font-style: italic;
+}
+.syntax--punctuation.syntax--section.syntax--embedded {
+  color: #be5046;
+}
+.syntax--punctuation.syntax--section.syntax--method,
+.syntax--punctuation.syntax--section.syntax--class,
+.syntax--punctuation.syntax--section.syntax--inner-class {
+  color: #abb2bf;
+}
+.syntax--support.syntax--class {
+  color: #e5c07b;
+}
+.syntax--support.syntax--type {
+  color: #56b6c2;
+}
+.syntax--support.syntax--function {
+  color: #56b6c2;
+}
+.syntax--support.syntax--function.syntax--any-method {
+  color: #61afef;
+}
+.syntax--entity.syntax--name.syntax--function {
+  color: #61afef;
+}
+.syntax--entity.syntax--name.syntax--class,
+.syntax--entity.syntax--name.syntax--type.syntax--class {
+  color: #e5c07b;
+}
+.syntax--entity.syntax--name.syntax--section {
+  color: #61afef;
+}
+.syntax--entity.syntax--name.syntax--tag {
+  color: #e06c75;
+}
+.syntax--entity.syntax--other.syntax--attribute-name {
+  color: #d19a66;
+}
+.syntax--entity.syntax--other.syntax--attribute-name.syntax--id {
+  color: #61afef;
+}
+.syntax--meta.syntax--class {
+  color: #e5c07b;
+}
+.syntax--meta.syntax--class.syntax--body {
+  color: #abb2bf;
+}
+.syntax--meta.syntax--method-call,
+.syntax--meta.syntax--method {
+  color: #abb2bf;
+}
+.syntax--meta.syntax--definition.syntax--variable {
+  color: #e06c75;
+}
+.syntax--meta.syntax--link {
+  color: #d19a66;
+}
+.syntax--meta.syntax--require {
+  color: #61afef;
+}
+.syntax--meta.syntax--selector {
+  color: #c678dd;
+}
+.syntax--meta.syntax--separator {
+  color: #abb2bf;
+}
+.syntax--meta.syntax--tag {
+  color: #abb2bf;
+}
+.syntax--underline {
+  text-decoration: underline;
+}
+.syntax--none {
+  color: #abb2bf;
+}
+.syntax--invalid.syntax--deprecated {
+  color: #523d14 !important;
+  background-color: #e0c285 !important;
+}
+.syntax--invalid.syntax--illegal {
+  color: white !important;
+  background-color: #e05252 !important;
+}
+.syntax--markup.syntax--bold {
+  color: #d19a66;
+  font-weight: bold;
+}
+.syntax--markup.syntax--changed {
+  color: #c678dd;
+}
+.syntax--markup.syntax--deleted {
+  color: #e06c75;
+}
+.syntax--markup.syntax--italic {
+  color: #c678dd;
+  font-style: italic;
+}
+.syntax--markup.syntax--heading {
+  color: #e06c75;
+}
+.syntax--markup.syntax--heading .syntax--punctuation.syntax--definition.syntax--heading {
+  color: #61afef;
+}
+.syntax--markup.syntax--link {
+  color: #56b6c2;
+}
+.syntax--markup.syntax--inserted {
+  color: #98c379;
+}
+.syntax--markup.syntax--quote {
+  color: #d19a66;
+}
+.syntax--markup.syntax--raw {
+  color: #98c379;
+}
+.syntax--source.syntax--c .syntax--keyword.syntax--operator {
+  color: #c678dd;
+}
+.syntax--source.syntax--cpp .syntax--keyword.syntax--operator {
+  color: #c678dd;
+}
+.syntax--source.syntax--cs .syntax--keyword.syntax--operator {
+  color: #c678dd;
+}
+.syntax--source.syntax--css .syntax--property-name,
+.syntax--source.syntax--css .syntax--property-value {
+  color: #828997;
+}
+.syntax--source.syntax--css .syntax--property-name.syntax--support,
+.syntax--source.syntax--css .syntax--property-value.syntax--support {
+  color: #abb2bf;
+}
+.syntax--source.syntax--elixir .syntax--source.syntax--embedded.syntax--source {
+  color: #abb2bf;
+}
+.syntax--source.syntax--elixir .syntax--constant.syntax--language,
+.syntax--source.syntax--elixir .syntax--constant.syntax--numeric,
+.syntax--source.syntax--elixir .syntax--constant.syntax--definition {
+  color: #61afef;
+}
+.syntax--source.syntax--elixir .syntax--variable.syntax--definition,
+.syntax--source.syntax--elixir .syntax--variable.syntax--anonymous {
+  color: #c678dd;
+}
+.syntax--source.syntax--elixir .syntax--parameter.syntax--variable.syntax--function {
+  color: #d19a66;
+  font-style: italic;
+}
+.syntax--source.syntax--elixir .syntax--quoted {
+  color: #98c379;
+}
+.syntax--source.syntax--elixir .syntax--keyword.syntax--special-method,
+.syntax--source.syntax--elixir .syntax--embedded.syntax--section,
+.syntax--source.syntax--elixir .syntax--embedded.syntax--source.syntax--empty {
+  color: #e06c75;
+}
+.syntax--source.syntax--elixir .syntax--readwrite.syntax--module .syntax--punctuation {
+  color: #e06c75;
+}
+.syntax--source.syntax--elixir .syntax--regexp.syntax--section,
+.syntax--source.syntax--elixir .syntax--regexp.syntax--string {
+  color: #be5046;
+}
+.syntax--source.syntax--elixir .syntax--separator,
+.syntax--source.syntax--elixir .syntax--keyword.syntax--operator {
+  color: #d19a66;
+}
+.syntax--source.syntax--elixir .syntax--variable.syntax--constant {
+  color: #e5c07b;
+}
+.syntax--source.syntax--elixir .syntax--array,
+.syntax--source.syntax--elixir .syntax--scope,
+.syntax--source.syntax--elixir .syntax--section {
+  color: #828997;
+}
+.syntax--source.syntax--gfm .syntax--markup {
+  -webkit-font-smoothing: auto;
+}
+.syntax--source.syntax--gfm .syntax--link .syntax--entity {
+  color: #61afef;
+}
+.syntax--source.syntax--go .syntax--storage.syntax--type.syntax--string {
+  color: #c678dd;
+}
+.syntax--source.syntax--ini .syntax--keyword.syntax--other.syntax--definition.syntax--ini {
+  color: #e06c75;
+}
+.syntax--source.syntax--java .syntax--storage.syntax--modifier.syntax--import {
+  color: #e5c07b;
+}
+.syntax--source.syntax--java .syntax--storage.syntax--type {
+  color: #e5c07b;
+}
+.syntax--source.syntax--java .syntax--keyword.syntax--operator.syntax--instanceof {
+  color: #c678dd;
+}
+.syntax--source.syntax--java-properties .syntax--meta.syntax--key-pair {
+  color: #e06c75;
+}
+.syntax--source.syntax--java-properties .syntax--meta.syntax--key-pair > .syntax--punctuation {
+  color: #abb2bf;
+}
+.syntax--source.syntax--js .syntax--keyword.syntax--operator {
+  color: #56b6c2;
+}
+.syntax--source.syntax--js .syntax--keyword.syntax--operator.syntax--delete,
+.syntax--source.syntax--js .syntax--keyword.syntax--operator.syntax--in,
+.syntax--source.syntax--js .syntax--keyword.syntax--operator.syntax--of,
+.syntax--source.syntax--js .syntax--keyword.syntax--operator.syntax--instanceof,
+.syntax--source.syntax--js .syntax--keyword.syntax--operator.syntax--new,
+.syntax--source.syntax--js .syntax--keyword.syntax--operator.syntax--typeof,
+.syntax--source.syntax--js .syntax--keyword.syntax--operator.syntax--void {
+  color: #c678dd;
+}
+.syntax--source.syntax--ts .syntax--keyword.syntax--operator {
+  color: #56b6c2;
+}
+.syntax--source.syntax--flow .syntax--keyword.syntax--operator {
+  color: #56b6c2;
+}
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--dictionary.syntax--json > .syntax--string.syntax--quoted.syntax--json {
+  color: #e06c75;
+}
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--dictionary.syntax--json > .syntax--string.syntax--quoted.syntax--json > .syntax--punctuation.syntax--string {
+  color: #e06c75;
+}
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--dictionary.syntax--json > .syntax--value.syntax--json > .syntax--string.syntax--quoted.syntax--json,
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--array.syntax--json > .syntax--value.syntax--json > .syntax--string.syntax--quoted.syntax--json,
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--dictionary.syntax--json > .syntax--value.syntax--json > .syntax--string.syntax--quoted.syntax--json > .syntax--punctuation,
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--array.syntax--json > .syntax--value.syntax--json > .syntax--string.syntax--quoted.syntax--json > .syntax--punctuation {
+  color: #98c379;
+}
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--dictionary.syntax--json > .syntax--constant.syntax--language.syntax--json,
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--array.syntax--json > .syntax--constant.syntax--language.syntax--json {
+  color: #56b6c2;
+}
+.syntax--ng.syntax--interpolation {
+  color: #e06c75;
+}
+.syntax--ng.syntax--interpolation.syntax--begin,
+.syntax--ng.syntax--interpolation.syntax--end {
+  color: #61afef;
+}
+.syntax--ng.syntax--interpolation .syntax--function {
+  color: #e06c75;
+}
+.syntax--ng.syntax--interpolation .syntax--function.syntax--begin,
+.syntax--ng.syntax--interpolation .syntax--function.syntax--end {
+  color: #61afef;
+}
+.syntax--ng.syntax--interpolation .syntax--bool {
+  color: #d19a66;
+}
+.syntax--ng.syntax--interpolation .syntax--bracket {
+  color: #abb2bf;
+}
+.syntax--ng.syntax--pipe,
+.syntax--ng.syntax--operator {
+  color: #abb2bf;
+}
+.syntax--ng.syntax--tag {
+  color: #56b6c2;
+}
+.syntax--ng.syntax--attribute-with-value .syntax--attribute-name {
+  color: #e5c07b;
+}
+.syntax--ng.syntax--attribute-with-value .syntax--string {
+  color: #c678dd;
+}
+.syntax--ng.syntax--attribute-with-value .syntax--string.syntax--begin,
+.syntax--ng.syntax--attribute-with-value .syntax--string.syntax--end {
+  color: #abb2bf;
+}
+.syntax--source.syntax--ruby .syntax--constant.syntax--other.syntax--symbol > .syntax--punctuation {
+  color: inherit;
+}
+.syntax--source.syntax--php .syntax--class.syntax--bracket {
+  color: #abb2bf;
+}
+.syntax--source.syntax--python .syntax--keyword.syntax--operator.syntax--logical.syntax--python {
+  color: #c678dd;
+}
+.syntax--source.syntax--python .syntax--variable.syntax--parameter {
+  color: #d19a66;
+}
+
+/*
+ * Your Stylesheet
+ *
+ * This stylesheet is loaded when Atom starts up and is reloaded automatically
+ * when it is changed and saved.
+ *
+ * Add your own CSS or Less to fully customize Atom.
+ * If you are unfamiliar with Less, you can read more about it here:
+ * http://lesscss.org
+ */
+/*
+ * Examples
+ * (To see them, uncomment and save)
+ */
+</style>
+
+  </head>
+  <body>
+    <h1>Deep Learning for Audio Signal Processing</h1>
+<p>Hendrik Purwins, Bo Li, Tuomas Virtanen, Jan Schlüter, Shuo-yiin Chang, Tara Sainath<br>
+2019/04/30<br>
+論文リンク<br>
+<a href="https://arxiv.org/pdf/1905.00078.pdf">https://arxiv.org/pdf/1905.00078.pdf</a></p>
+<h2>Abstract</h2>
+<ul>
+<li>音声処理のSOTAのレビュー論文。</li>
+<li>前処理から幅広い応用分野に到るまで色々まとめた</li>
+</ul>
+<h2>1. Introduction</h2>
+<ul>
+<li>深層学習(DL)は、複合ガウスモデル(GMM)や隠れマルコフモデル(HMM)、non-negative matrix factorizationといった従来の手法を凌駕した。</li>
+</ul>
+<h3>画像処理とは異なった音声における観点</h3>
+<ul>
+<li>音声信号は一次元の時系列データ(2次元の画像データとは根本的に異なる)</li>
+<li>音声信号は通常、2次元の時系列データ(周波数スペクトログラムなど)に変換されて利用される</li>
+<li>音声信号は瞬間を捉えた画像とは異なり、時系列に沿って処理する必要がある</li>
+</ul>
+<h2>2. Methods</h2>
+<h3>2-A. problem Categorization</h3>
+<p>どんな出力にしたいかで分類する。<br>
+そこには<strong>2つの独立した軸</strong> が存在している。</p>
+<ol>
+<li>ラベルの長さについての種類</li>
+<li>ラベルそのものの分類の仕方<br>
+<img src="audio_signal_tasks.png" alt="audio_signal_tasks.png"></li>
+</ol>
+<h4>ラベルの長さ</h4>
+<ul>
+<li>単一の広域的なラベル(音声の種類とか)(single global label)</li>
+<li>各タイムステップにおける局所的なラベル(label per time step)</li>
+<li>可変長のラベルのシーケンス(label sequence)</li>
+</ul>
+<p>の3つに分類される。</p>
+<h4>ラベルの分類の仕方</h4>
+<ul>
+<li>単一クラス(そのクラスに属するかどうか)(single class)</li>
+<li>複数クラスの分類(set of classes)</li>
+<li>数値データ(numeric value)</li>
+</ul>
+<p>の3つが各ラベルにおける目標値として分類できる。</p>
+<h4>問題ごとの名称づけ</h4>
+<p>それぞれやり方によって名前をつけていく。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">名称</th>
+<th>長さの種類</th>
+<th style="text-align:center">分類の仕方</th>
+<th>具体例や備考</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">sequence classification</td>
+<td>single global label</td>
+<td style="text-align:center">single class</td>
+<td>言語や話者推定、音楽のキーなど</td>
+</tr>
+<tr>
+<td style="text-align:center">multi-label sequence classification</td>
+<td>single global label</td>
+<td style="text-align:center">set of classes</td>
+<td>いくつかの音響的な現象の推定(weakly-labelled AudioSet datasetなどがある)</td>
+</tr>
+<tr>
+<td style="text-align:center">sequence regression</td>
+<td>single global label</td>
+<td style="text-align:center">numerica value</td>
+<td>目標値を離散化すれば多クラス分類問題に変換が可能</td>
+</tr>
+<tr>
+<td style="text-align:center">sequence labeling</td>
+<td>label per time step</td>
+<td style="text-align:center">single class, set of classes</td>
+<td>和音の検出や歌声の動きの検出など</td>
+</tr>
+<tr>
+<td style="text-align:center">Event detection</td>
+<td>label per time step</td>
+<td style="text-align:center">single class</td>
+<td>その時刻でイベントが発生したかどうか。(話者の変更など)</td>
+</tr>
+<tr>
+<td style="text-align:center">Regression per time step</td>
+<td>label per time step</td>
+<td style="text-align:center">numeric value</td>
+<td>変化する音源からの距離や音声のピッチ、音源の分離</td>
+</tr>
+<tr>
+<td style="text-align:center">sequence transduction</td>
+<td>label sequence</td>
+<td style="text-align:center">区別なし</td>
+<td>音声認識、音楽解析、翻訳(特に決まった用語はない)</td>
+</tr>
+</tbody>
+</table>
+<p>音声以外の入力をするもの。<br>
+音声合成 : sequence transductionやsequence regressionタスクに分類が可能。<br>
+音声の類似判定 : 回帰問題</p>
+<h3>2-B. Audio Features</h3>
+<p>音声の特徴量。</p>
+<h4>特徴量抽出とDNN</h4>
+<p>しばしば音声の特徴量の抽出の仕方そのものに対して考えられることが多いが、DNNs(Deep neural networks)は最適化の際に一緒に特徴量抽出も行なっていると考えらえれる。</p>
+<ul>
+<li>音声認識では、 [10]において、下層(入力に近い方)における活性化された値は話者に適応された特徴量として考えられ、上層(出力に近い方)はクラスベースの分類を行なっていると考えることができる。</li>
+</ul>
+<h4>MFCC</h4>
+<p>メル周波数ケプストラム係数(MFCCs)がここ何十年か音声データの特徴量表現の主なものとして利用されてきた。</p>
+<ol>
+<li>FFTで周波数に変換</li>
+<li>得られたスペクトルに強さ(magnitude)を計算</li>
+<li>メル周波数に沿った周波数フィルタをかける</li>
+<li>logをとる</li>
+<li>白色化(分散を統一する)</li>
+<li>離散コサイン変換(DCT)(逆フーリエ変換の代用)</li>
+</ol>
+<p>DLモデルにおいては、空間的な関係性を破壊し、情報が失われてしまうためDCTは不要と考えられている。</p>
+<p>6番の工程を取り除いた<strong>ログメルスペクトラム(log-mel spectrum)</strong> が音声分野において主流の特徴量。</p>
+<h4>フィルターバンク</h4>
+<ul>
+<li>メルフィルターバンクは、周波数のフィルタリングに使用されるが、人の聴覚特性に影響されたものである。</li>
+<li>転置(transpotitions)をtranslationとして捉えた表現を用いることの方が好ましいタスクもある。<br>
+共通因子(共通の関数とか)によって倍音や基音をスケーリングすることによってトーンの変換を行う。<br>
+これが対数周波数スケールに変化した。</li>
+<li><strong>constant-Q周波数</strong> (抽出する周波数の大きさに合わせてフィルターの大きさも変化させて得られた周波数のこと)は人の聴覚特性に即したフィルターバンクを生成していると言える。</li>
+</ul>
+<h4>スペクトログラム</h4>
+<p>スペクトログラムはスペクトルのシーケンスのこと。<br>
+時刻と周波数における、音声の隣り合うスペクトログラムのビン(bins)は相関があると考えれるが、<br>
+他にも音声生成の際の物理的な性質から他の相関性が存在している。<br>
+倍音などがその例になる。</p>
+<p>このような物理的な性質を考慮するために、CNNなどの空間的に局所的なモデルにおいて3つ目の次元を追加して倍音の強さを出力することも可能。</p>
+<p>各々の周波数帯において、値の分散は異なるので、それぞれの周波数帯において正規化を行うことがある。</p>
+<h4>窓の幅</h4>
+<p>スペクトルを計算するための窓幅は時間的な解像度と周波数的な解像度とのトレードオフの関係にある。</p>
+<ul>
+<li>
+<p>短い窓幅であれば時間解像度は上がるが、周波数解像度は下がる。逆もまた然り。</p>
+</li>
+<li>
+<p>log-melとconstant-Q周波数はどちらも高周波数に対しては短い窓幅を適用することが可能であるが、不均質にぼやけたスペクトログラムを生成することになってしまい空間的に局所的なモデルには適さない。</p>
+</li>
+<li>
+<p>複数のチャンネルで異なった窓幅を適用して抽出した特徴量を使うという手がある。</p>
+</li>
+</ul>
+<h4>フィルターバンクに頼らない方法</h4>
+<p>このように意図的に設計されたフィルターバンクを頼らず特徴量抽出を単純化するために様々な手法が提案されてきた。<br>
+結果的にデータ・ドリブンな統計的なモデル学習になった。</p>
+<ul>
+<li>解像度をマックスにした(full-resolution)([18],[19])、magnitudeスペクトルや、</li>
+<li>生の音声データを直接使用し、フィルタ自体もモデルとして学習させるケースもある([20]-[23])。</li>
+<li>下層レイヤーでlog-メルスペクトルの計算をデータから学習させるよう設計したモデルもある([24])。</li>
+<li>フィルターバンクを一切使わず、1次元の音声データから回帰モデルを作成した例もある([25])。</li>
+</ul>
+<h3>2-C. Models</h3>
+<p>複数のフィードフォワード、畳み込み、再帰層が組み合わせてモデルの可能性を広げている。</p>
+<h4>Convolutional Neural Networks(CNNs)</h4>
+<p>CNNsは学習可能なカーネルを使って入力を畳み込みを行うことが基本。</p>
+<ul>
+<li>
+<p>1次元(時間軸)か2次元(時間-周波数軸)の2つが主流。</p>
+</li>
+<li>
+<p>1次元畳み込みは生の音声データによく使われる。</p>
+</li>
+<li>
+<p>それぞれのカーネルを使用して複数の特徴量マップ(channels)を計算するのが特徴。</p>
+</li>
+<li>
+<p>プーリング層でダウンサンプリングを行う。</p>
+</li>
+<li>
+<p>(畳み込み→プーリング)xN→全結合層(FCN)がよく使われる。</p>
+</li>
+</ul>
+<h4>受容野</h4>
+<ul>
+<li>それぞれのモデルによって固定されている。</li>
+<li>大きなカーネルを使ったり、複数のCNN層を重ねると受容野も大きくなる</li>
+<li>サンプルレートが大きいデータだと、十分な受容野を確保しようとすると膨大な数のパラメタを要し、計算も複雑になる</li>
+</ul>
+<h5>代替手段</h5>
+<ul>
+<li>dilated convolution(atrous, convolution with holes)がある。([25],[27]-[29])。<br>
+フィルタ係数の間にゼロの値を差し込むことで、畳み込みのフィルタをカーネルサイズよりも大きい範囲に適用する。<br>
+dilated畳み込みを重ねれば、非常に大きな受容野を確保することが可能。</li>
+</ul>
+<h4>CNNの構造決定</h4>
+<ul>
+<li>特定のタスクに対して有効なCNN構造の構築をするための理論は今の所ない([30])。</li>
+<li>経験的に選ばれている場合がほとんど。</li>
+<li>大雑把なガイドラインは存在している。<br>
+少ないデータには少ないパラメータで([31])や、チャンネルの数は特徴量マップのサイズが小さくなるにしたがって増やしていくべきだといったことなど。</li>
+</ul>
+<h4>Recurrent Neural Networks (RNNs)</h4>
+<p>CNNによる有効な文脈(context)サイズは限られている。<br>
+RNNsはシーケンスのモデルで異なったアプローチをしている([32])。</p>
+<ul>
+<li>そのステップでの入力と直前の出力を使って出力の計算を行う</li>
+</ul>
+<p>オフラインではbidirectional RNNsは逆方向の再帰も行い、未来方向へも受容野を広げている。<br>
+従来のHMMsとは異なり、RNNの隠れ層のユニット数が線形に増加すると、指数関数的に表現可能な状態数は増加する。<br>
+この時、学習に必要な時間はせいぜい二次関数的に増加するのみである([33])。</p>
+<h4>勾配消失</h4>
+<p>RNNは勾配消失は勾配発散に見舞われることがある。</p>
+<ul>
+<li>
+<p>LSTM([7])はゲートメカニズムとメモリーセルを一般化て情報の流れを緩和し、勾配問題を解決した。</p>
+</li>
+<li>
+<p>再帰層を重ねる([34])ことや、</p>
+</li>
+<li>
+<p>スパースな再帰層を重ねる([35])ことが音声合成で有用なことがわかっている。</p>
+</li>
+</ul>
+<h4>LSTMの拡張</h4>
+<p>時間軸方向と周波数軸方向にLSTMを拡張する。</p>
+<ul>
+<li>Frequency LSTMs(F-LSTM)[36]やTime-Frequency LSTMs(TF-LSTM)([37]-[39])が周波数間の相関をモデルするCNNの代替手段として導入された。</li>
+</ul>
+<p>CNNとは異なり、F-LSTMsはローカルフィルタや再帰的なつながりを通してtranslationalな普遍性を取得する。</p>
+<p>TF-LSTMsは時間と周波数方向に拡張しており、ローカルフィルタと再帰的な結合によりスペクトルと一時的な(temporal)もの両方をモデル化することができる。</p>
+<ul>
+<li>TF-LSTMsはいくつかの課題でCNNsよりも良い成績を出している。([39])<br>
+しかしながら、計算の並列化がCNNに比べてできないため学習速度が遅い。</li>
+</ul>
+<h4>CNNとLSTMの利用</h4>
+<p>RNNはCNNで出力された値を処理することが可能。<br>
+Convolutional Recurrent Neural Network(CRNN)と呼ばれる。<br>
+CNNで局所的な情報を取得し、RNNによってそれらを結合する。</p>
+<p>一時的な文脈を処理する様々な方法が以下の表にまとまっている。<br>
+<img src="temporal_context_1.png" alt="temporal_context_1.png">
+<img src="temporal_context_2.png" alt="temporal_context_2.png"></p>
+<h4>Sequence-to-Sequence Models(Seq2Seq)</h4>
+<p>Seq2Seqは入力のシーケンスから出力のシーケンスを直接出力するモデル。</p>
+<p>多くの音声処理タスクは本質的にはsequence-to-sequenceの変換タスク。<br>
+これまで細分化されてたタスクをひとまとめに行うことができる。<br>
+例えば、音声認識の分野では、最終的なタスクは入力となる音声信号を単語のシーケンスとして出力すること。</p>
+<ul>
+<li>しかしながら従来のASR(Automatic Speech Recognition)システムでは音響的、発音、言語モデと分離して各々を独立に学習させていた([40],[41])。</li>
+</ul>
+<h4>end-to-endでの学習</h4>
+<p>DLモデルでのend-to-endによる学習が盛んに行われている([42]-[47])。<br>
+語彙集といった予備的な知識や文章の正規化モジュールといった外部情報を一切使わない。<br>
+全て一色単に学習する。<br>
+モデルは直接目的となるシーケンスを予測するため、デコードの処理も単純化されている。</p>
+<h4>Connectionist temporal classification (CTC)</h4>
+<p>end-to-endで学習するモデルの一例([48]-[51])。</p>
+<ul>
+<li>ブランクラベル(blank symbol)を導入し、シーケンスの長さ調整を行う</li>
+<li>ブランクを含めた考えうるパスを全て統合し、まとめて最適化を行う<br>
+ベースとなるCTCモデルはGraves([42])によって拡張され、セパレートな言語モデル(recurrent neural network transducer; RNN-T)を導入した<br>
+入力と出力のシーケンスをまとめて学習する注意機構のモデルがどんどん主流になってきている([43],[52],[53])。</li>
+</ul>
+<p>他のsequence-to-sequenceモデルを改良したlisten, attend and spell (LAS)がある([54])。</p>
+<h3>Generative Adversarial Networks (GANs)</h3>
+<p>GANは教師なしの生成モデル([55])。<br>
+GANは2つのネットワークから構成される。</p>
+<ul>
+<li>生成器</li>
+<li>識別器</li>
+</ul>
+<p>生成器(generator)はいくつかの前提知識から潜在ベクトルにマップしサンプルを生成し、識別器(discriminator)は生成されたサンプルが本物か偽物かを判定する。<br>
+画像生成ではGANは成功したが、音声分野での利用は限られる。<br>
+GANは音源分離([56])や楽器変換([57])やノイズ除去([58]-[61])で使われている。</p>
+<h3>Loss Functions</h3>
+<p>訓練に勾配降下法を使う場合、損失関数は微分可能である必要がある。<br>
+log-melスペクトルでの最小二乗損失(mean squared error; MSE)は2つの音声間の距離の評価に使うことができる。<br>
+時間方向でMSEを取るのは柔軟性のある評価方法とは言えない。<br>
+(同じ周波数の正弦波でも位相の違いによってかなり異なる)<br>
+非線形に歪んだ信号は似たように聞こえるが、これを評価する手法として</p>
+<ul>
+<li>differentiable dynamic time warping distance([62])や</li>
+<li>Wasserstein GANs([63])といったearth mover’s distanceが存在する。</li>
+</ul>
+<p>損失関数はテイラー展開することもできる。<br>
+複数の損失関数を組み合わせることも可能。<br>
+制御された音声合成をするために、変分オートエンコーダ(VAE)の潜在変数を定めておいた範囲に収まるような損失関数を1つ設定し、もう1つは生成された音声の中で制御空間において変化が反映されるような損失関数を設定した([64])。</p>
+<h3>Phase modeling</h3>
+<p>log-melスペクトラムだと位相情報は失われる。</p>
+<ul>
+<li>位相はGriffin-Lim Algorithm([65])によって求めたmagnitudeスペクトラムから見積もることができる。</li>
+</ul>
+<p>上質な音声を生成するためには位相の精度をあげるだけでは不十分。</p>
+<ul>
+<li>
+<p>WaveNet([25])といったNNはlog-melスペクトルから時系列データを生成するよう学習することができる([66])。</p>
+</li>
+<li>
+<p>また、DLではmagnitudeと位相スペクトルを入力特徴量として含むことで複素数スペクトラムを挿入するように学習させることも可能([67], [68])。</p>
+</li>
+<li>
+<p>またはDNNの各レイヤーでの計算を複素数で行うこともできる([69])。</p>
+</li>
+</ul>
+<h4>異なる位相を持つ同質の音声への対処</h4>
+<p>音声解析タスクで入力データとして生の音声データを扱う場合、認知的にも意味的にも全く同じ音声が全く異なった位相の中で現れるといった困難が発生する。<br>
+些細な位相変化に対して不変な表現手法を使うことが肝要になってくる。</p>
+<ul>
+<li>これに対して、畳み込み層が時間方向に使われる([20],[21],[23])。</li>
+<li>もしくは、十分に多くの隠れユニットを持つDNNレイヤを使う([22])。</li>
+</ul>
+<h3>2-D. Data</h3>
+<p>DLの発展には大規模なデータセットが必要。<br>
+画像分野ではImageNetがある(1400万もの手動でラベリングされた画像)。</p>
+<ul>
+<li>音声認識の分野では特に英語において巨大なデータセット([71])が存在する。</li>
+<li>音楽の分類や類似度判定にはMillion Song Dataset [72]が使える。</li>
+<li>一方で、MusicNet([73])は音階ごとのシーケンスがラベリングされている。</li>
+<li>他の音楽情報(コードとかビートとか)を含んだラベリングが施されたデータセットは非常に小規模([74])。</li>
+<li>環境音分類にはAudioSet[9]がある(200万もの音声)。</li>
+</ul>
+<h4>transfer learning</h4>
+<p>画像分野においては転移学習が可能。<br>
+音声認識において、モデルは事前学習が可能。<br>
+言語間での転移学習([75])や異なるタスクでの転移学習([76])もできる。</p>
+<h4>データセットが少ない時の対処</h4>
+<p>転移学習もあるが、そもそもデータセットを増やしたり生成することでデータセットのサイズを大きくすることもできる。<br>
+既知の合成パラメータとラベルがあれば現実のデータを模倣したデータを生成することができるタスクもある。<br>
+生成する画像データを徐々に複雑にしていくことが機械学習の手法を理解し、デバッグし、改善する助けになる。</p>
+<p>生成された画像のみを使って学習をすると、実際のデータに対してはうまく機能しない可能性がある。</p>
+<h4>DataAugmentation</h4>
+<p>Data augmentationはより広い範囲での可能な入力を網羅するためにすでにあるサンプルをいじることで新たなる訓練データを生成する。</p>
+<ul>
+<li>ASRの場合、vocal perturbationと呼ばれるピッチを変化させたり時間を伸ばすことでデータを増やす手法がある([77],[78])。</li>
+<li>遠くにある音源の音声認識(far-field ASR)をする際には、音源データを部屋の反響モデルに通すことで複数チャネルのノイズや反響のあるデータを生成することができる([79])。</li>
+<li>ピッチ変更はコード識別において有用である([80])。これと時間方向の引き伸ばしやスペクトルでのフィルタリングは歌声の識別や楽器識別に有用である([81],[82])。</li>
+<li>環境音では、訓練データ同士を線形に足し合わせると汎用化に有用である([83])</li>
+<li>音源分離では、別々のトラックの音声を混ぜたデータセットを使うことで学習ができる</li>
+</ul>
+<h3>2-E. Evaluation</h3>
+<p>評価基準はタスクによって変化する。</p>
+<h4>WER(音声認識)</h4>
+<p>例えば、音声認識の分野ではword error rate (WER)が使われる。<br>
+WERは予測した単語列と参照する単語列とを並べてみて単語の間違う割合をカウントし、挿入、削除、置き換えの割合によって構成される(分母は答えとなる単語列の長さ)。</p>
+<h4>音楽や音響シーンのクラス分類問題</h4>
+<p>accuracyがよく使われる。</p>
+<h4>二値分類問題(閾値なし)</h4>
+<p>AUCROC(the area under the receiver operating characteristic curve)が使われる。</p>
+<p>これらの評価手法の設計では、クラス間の意味的な関係性が考慮される。<br>
+(コードの推測問題ではハーモニーが近いもの同士はエラーの値を小さくするなど)</p>
+<p>イベント検知では、Fスコアかequal error rateが使われる([84],[85])。<br>
+音源分離などにはsignal-to-distorion ratio, signal-to-interference ratio そして signal-to-artifacts ratio([86])のような手法を使って評価される。<br>
+Mean opinion score (MOS)は主観的なスコア。合成された音源(特にスピーチ)を主観的に評価する。</p>
+<h2>3. Applications</h2>
+<p>具体的な応用例について見ていく。</p>
+<h3>3-A. Analysis</h3>
+<h4>3-A-1) Speech:</h4>
+<p>音声認識は音声ベースのinteractionの前提条件となる。<br>
+音声認識の歴史は半世紀ほどまでに遡る([87])。</p>
+<h5>遍歴</h5>
+<p>triphone-state ガウス混合モデル(GMM)/隠れマルコフモデル(HMM)がここ数十年の主流モデルだった。<br>
+が、</p>
+<ul>
+<li>2012年にDNNを使ったモデルが何千時間ものデータを使った学習したところ驚異的なWERスコアを出した([3])。</li>
+<li>deep feedforward and convolutional networks([91])の他にも、LSTMやGRUは他のフィードフォワードのDNNよりも良いスコアを出した([92])。</li>
+<li>CLDNN(the convolutional, long short-term memory deep neural network)モデルがLSTMのみのモデルよりも良い成績を残した([93])。</li>
+</ul>
+<p>CLDNNsでは、入力に使われる窓を2次元畳み込みとMAXプーリングで処理する。これにより、信号における周波数の分散を抑えることができ、LSTMへ渡す特徴量の低次元化もすることができる。LSTMで処理された情報はいくつかのフィードフォワード層で計算され、ソフトマックス関数で出力される。</p>
+<h5>HMMなしのsequence-to-sequenceに</h5>
+<p>RNNを使ったモデルによって、HMMなどによる音素状態量を入れる必要がなくなった。<br>
+CTCベースのモデルを単語の出力ターゲットに合わせて訓練したものは、YouTubeの動画のキャプションタスクでSOTAデアルCD-phoneme baselineを超えた([45])。<br>
+LASはエンコーダを含む NNモデルで、エンコーダ部分は従来の音響モデルと類似している。<br>
+CTCとLASはモデル構造はシンプルではあるが、性能自体は従来のモデルよりもよくなっている([94])。</p>
+<h5>具体的な適用例</h5>
+<p>無人アシスタント。</p>
+<ul>
+<li>Google Home</li>
+<li>Amazon Alexa</li>
+<li>Microsoft Cortana<br>
+これらのインターフェースは音声となっている。</li>
+</ul>
+<p>また、YouTubeの自動字幕にも使われている。</p>
+<p>音声ベースのアプリケーションが増えていくと、より多くの話者と言語に対してカバーしていくことが寛容となっていく。</p>
+<p>転移学習はマイナーな言語に対して活用されている([75])。<br>
+自動音声認識分野でDLが大きな成功を納めているため、他の分野でもDLよりの流れができている。<br>
+(音声区間検出(voice activity detection)([95]), 話者識別(speaker recognition)[96]), 言語識別([97]), 音声翻訳(speech translation)[98])</p>
+<h4>3-A-2) Music:</h4>
+<p>言語音声に比べると、音楽データは非常に多岐にわたり、豊富。<br>
+同一の種類の音楽に対しては、時間や周波数軸方向で同様の規則性が働いているが、それにより複雑な依存関係を構築している。</p>
+<h5>課題</h5>
+<ul>
+<li>低レベル分析(周波数解析など)</li>
+<li>リズム分析(ビート追跡)</li>
+<li>ハーモニー分析(キーの検出、メロディーの抽出)</li>
+<li>高レベル分析(ジャンル分けとか楽器検出)</li>
+<li>高レベル比較(繰り返し部分の検出、カバーソングの同定など)</li>
+</ul>
+<p>これらの課題は人力で設計されたアルゴリズムや特徴量を使って取り組まれていた。<br>
+現在ではDLによって取り組まれている。<br>
+より詳細なリストは[99]に記載されている。</p>
+<h5>binary event detection</h5>
+<p>いくつかのタスクはイベント検知(binary event detection)に分類される。</p>
+<p>最も単純なもので onset detectionがある。これは、録音のどの部分が小節や展開のスタート地点なのかを検出する。</p>
+<ul>
+<li>
+<p>Lacoste and Eck [84]は、constant-Q log-magnitudeスペクトログラムの200msごとの切り抜きデータを使って小節(や展開)の始まりかその最中なのかを予測する小規模なMLPを学習させた(フーリエ変換を使った特徴量を使用しない方が良い結果が残ったらしい)。<br>
+↑人力で設計されたアルゴリズムよりも良い結果を残した。</p>
+</li>
+<li>
+<p>Eyben et al. [100] は上記の手法を改良させ、bidirectional LSTMを微分フィルタを通したスペクトログラムに対して適用した。</p>
+</li>
+<li>
+<p>Schluter et al. [16]は 15フレーム分のlog-mel スペクトログラムをCNNで処理した結果をさらに改善させた。</p>
+</li>
+<li>
+<p>onset detection(小節の始まり部分の特定)はビートやダウンビート(小説の1拍目)の追跡に使われている[101]</p>
+</li>
+<li>
+<p>ダウンビート検出に、スペクトログラムに対してDurand et al. [102]はCNNを利用し、Bock et al.[103]はRNNを使用して検出しようとした。</p>
+</li>
+<li>
+<p>上記の2つの研究ではHMM[104]やDynamic Bayesian Network(DBN)[104]をネットワークの出力に噛ませている。</p>
+</li>
+<li>
+<p>Fuentes et al. [104] はCRNN(CNN+RNN)を提案し、HMMやDBNを使った後処理の必要性をなくしたが、ビート追跡器を使用している。</p>
+</li>
+<li>
+<p>高レベルな分析として展開の区切りを予測するものをUllrich はCNNで解決した([105])。<br>
+受容野は60秒にまで大きくして、強力なダウンサンプリングを行なっている。</p>
+</li>
+</ul>
+<p>CNNとRNNを使ったアプローチはevent detectionでは成功を収めている。<br>
+時間軸方向で訓練のターゲットがぼやかされると致命的になる([16],[84],[105])。</p>
+<h5>他クラス分類問題</h5>
+<p>コード識別問題がある。<br>
+(各タイムステップごとの基音とコードのクラスを予測する課題)</p>
+<ul>
+<li>
+<p>従来の手法では12音階を元にオクターブを考慮して検出していた([13])。</p>
+</li>
+<li>
+<p>Humphrey and Bello [80]はCNNでの処理の類似性を指摘し、CNNと入力にconstant-Q, 線形マグニチュード スペクトログラムを使用したモデルで良い成績を残した。<br>
+(ピッチの変更とかで学習データのカサ増しをした)</p>
+</li>
+<li>
+<p>McFee and Bello [106]はCRNN(2dConv→1dConv→GRU)を使って170種類もの詳細なコードセットを予測した。</p>
+</li>
+<li>
+<p>Korzeniowski et al. [107]はlog周波数スペクトログラムを入力に使ったCNNを学習させ、コードだけでなくchromagramを表現する手法を改善させた。</p>
+</li>
+</ul>
+<h5>シーケンス分類問題</h5>
+<p>テンポ検出が低レベルな問題としてある。</p>
+<ul>
+<li>ビートとダウンビートの検出を元にするのが自然なやり方([102],[103])。</li>
+<li>onset detectionなしにビート追跡を行うように、Schreiber and Muller [108]はCNNが12秒のスペクトログラムの切り抜きを入力に与えるだけでテンポの検出ができることを示した。</li>
+</ul>
+<p>より広い課題として、人が音楽の切り抜きを聞いて、どのタグ付けを行うのかという問題がある。<br>
+タグの種類としてテンポ、ジャンルなどがあるが、曲全体に対して付けられることが常。</p>
+<p>この曲の切り抜きから曲全体のタグを予想する問題に対してのアプローチがいくつかある。</p>
+<ul>
+<li>
+<p>Dieleman et al. [109]は3秒ほどのlog-メルスペクトログラムを入力として小さな1dConvを適用し、それぞれの切り抜きにおける予測値を平均することで曲全体のタグを予測させた。比較として、生データを入力に使用したが結果はよくなかった。</p>
+</li>
+<li>
+<p>Choi et al. [110]はスペクトログラムを画像に見立てて、3x3のCNNの後にFCNを適用して分類問題をといた。<br>
+画像分類に比べると、プーリング層がより後の段階で出てくる。局所的な歌声検知が全体の予測性能の向上をさせる目的でmax-poolingを入れた。</p>
+</li>
+<li>
+<p>Lee et al. [111]は音楽の生データに対してCNNを学習させた(kernelサイズは2から4ほどでmax-poolingを使用))</p>
+</li>
+</ul>
+<h5>音楽分野まとめ</h5>
+<p>まとめると、音楽分野においてDLは様々な音楽処理タスクにおいて成功を納めた。その結果として、自動化された産業用のアプリケーションで多岐にわたって使われるようになった。<br>
+音楽のレコメンド機能や、説明付与など。</p>
+<p>研究的な側面ではどんな特徴量を入力として使うかや、ネットワーク構造としてCNNやRNNを使うかについては総意が取られていない。<br>
+この辺りについてはさらなる研究が必要となるだろう。</p>
+<h4>3-A-3) Environmental Sounds:</h4>
+<p>スピーチや音楽以外にも、他の音もまた我々の環境に関する豊富な情報を与えてくれる。</p>
+<p>環境音分析はいくつかの応用先がある。例えば、状況を検出するデバイスや、音による監視装置、複数の媒体によるラベル漬けや情報収集などである。</p>
+<p>これらは主に3つの基本的な取り組みによってなされている。</p>
+<ol>
+<li>音響的なシーン分類</li>
+<li>音響的なイベント検知</li>
+<li>タグ付け</li>
+</ol>
+<h5>音響的なシーン分類(acoustic scene classification)</h5>
+<p>録音データ全体からその録音に対して場面ラベルを付与するのが目的(どんな場面かを予測する)。<br>
+ラベルの例としてあるのは “家”,“道路”,“車中”,"レストラン"など。</p>
+<h5>音響的なイベント検知(acoustic event detection)</h5>
+<ul>
+<li>
+<p>様々なイベントの音が検知されている区間(始まりと終わり)を検知するのが目的。<br>
+イベントとしては足音や信号機の音、犬のほえ声など。</p>
+</li>
+<li>
+<p>単純でかつ効果的な手法として、各時刻ごとのイベントのクラス分類問題を教師あり学習として解くのがある。</p>
+</li>
+<li>
+<p>イベント検知に使われている分類器は文脈的な情報(contextual information)を使用する。(分類の対象から出てくる音声を処理した特徴量など)<br>
+目的となるフレーム周辺の音響的特徴量を結合して使用するのが2016年に開催されたDCASE(Detection and Classification of Acoustic Events and Scenes)[112]での基本的な手法となった。</p>
+</li>
+<li>
+<p>RNNが2クラスのフレームごとのイベント検知問題に使われた([113])ように、一時的な情報をモデルした分類器構造が使うこともできる。</p>
+</li>
+<li>
+<p>CNNもまた有効。だが、時間的な解像度を高くするためにはmaxプーリングやストライドのサイズはあまり大きくしすぎてはいけない。</p>
+</li>
+<li>
+<p>CNNで解像度を高く保ちながら大きな受容野を確保するためにはdilated convolutionやdilated poolingが使用できる([114])。</p>
+</li>
+</ul>
+<h5>タグ付け</h5>
+<p>タグ付けの目的は、局所情報(temporal information)なしに音声データを複数のラベル付けをすることである。</p>
+<p>タグ付けやイベント検知において、同時に起こりうる複数のイベントを予測対象とすることがありうる。<br>
+イベント検知の分野では polyphonicなイベント検知と呼ぶ。<br>
+この中では、それぞれのクラスはバイナリーなベクトルによって表現される。それぞれのベクトルがそれぞれのイベントに対応している仕組みだ(1: active, 0: nonactive)。<br>
+重複したラベル付けが可能となると、マルチラベルなクラス分類問題になる。</p>
+<h5>マルチラベルなクラス分類問題</h5>
+<p>同時に起こる複数のクラスを予測するマルチラベルなクラス分類器は各々のクラスに対して単クラス分類器を使うよりも良い結果を残す。</p>
+<p>これはクラス間の相関関係もモデル化していることによるのではないかと考えられる。</p>
+<h5>データセットの制限</h5>
+<p>音楽やスピーチに比べると研究が盛んでないこともあり、データセットも限られたものとなっている。<br>
+ほとんどのデータセットはDCASEchallengeの中で出されたもの。<br>
+データセットが限られているので、data augmentationが共通して使われており、効果も実証されている。</p>
+<h4>3-A-4) Localization and Tracking:</h4>
+<p>複数チャンネルの音声データは音源の位置推定と追跡のために利用できる。<br>
+これを活用すると、音源分離やスピーチの補強(enhancement)、話者分離などに利用することが可能となる。</p>
+<h5>音源方位、場所検知</h5>
+<p>複数のマイクからの入力からなる音源配列は音源の方位や高度推定に使うことができる。<br>
+複数のマイクからの情報を結合することで、方位情報を結合して場所情報を得ることが可能となる。<br>
+複数のマイクからの情報を与えられた上での方位推定は2つに大きく分類できる。</p>
+<ol>
+<li>方位を離散クラス化してクラス分類問題に変える([115])</li>
+<li>回帰問題として方位を推定する([116])か空間座標を推定する([117])</li>
+</ol>
+<p>DL構造の違いによって入力される特徴量の違いによってDL構造も異なり、単一なのか複数の音源の位置推定を行うかでも異なってくる。</p>
+<h5>入力に使われる特徴量</h5>
+<p>位置推定としてよく使われる特徴量は以下のようなものがある</p>
+<ul>
+<li>位相スペクトル[115]</li>
+<li>強度(magnitude)スペクトル[118]</li>
+<li>一般化されたチャンネル間の相互相関係数(generalized cross-correlation)[117]</li>
+</ul>
+<p>一般的に、音源の位置推定には複数チャンネルの情報が必要になっている。<br>
+これらの情報をDLを使って学習することも可能で、チャンネル内での(within-channel)適切な位相情報が必要になってくる。</p>
+<ul>
+<li>CNNでこれを行うことができる[118]。カーネルは複数チャンネルにまたがっている。</li>
+</ul>
+<h3>3-B. Synthesis and Transformation</h3>
+<h4>3-B-1) Source Separation:</h4>
+<p>音源分離は単一音源からの音情報のみを抽出する処理のことをさす。</p>
+<p>現実世界では複数音源の混ざった音声データが取得されるため、これらを分離することは信号処理タスクで良い成績を出すために重要である。</p>
+<p>音源分離が応用されている分野はロバストなクラス分類のための前処理、スピーチの明瞭化のための前処理、音楽編集やリミックスなどが含まれる。</p>
+<h5>音源分離の定式化</h5>
+<p>音源分離は以下のように定式化することが可能。<br>
+ある単一音源からの信号を <span class="math"><script type="math/tex">s_{m,i}(n)</script></span> とすると、</p>
+<span class="math"><script type="math/tex; mode=display">x_m(n) = \sum_{i=1}^I S_{m,i}(n) \tag{1} \\\\
+</script></span>
+<p><span class="math"><script type="math/tex">i</script></span> が音源のインデックスで、 <span class="math"><script type="math/tex">I</script></span> が音源の個数。 <span class="math"><script type="math/tex">n</script></span> がサンプルのインデックスとなる。
+複数のマイク入力からの合成結果が <span class="math"><script type="math/tex">x(n)</script></span> だとすると、 <span class="math"><script type="math/tex">s_{m,i}(n)</script></span> が <span class="math"><script type="math/tex">m</script></span> 番目のマイクからの <span class="math"><script type="math/tex">i</script></span> 番目の情報だということになる。</p>
+<h5>音源分離手法のSOTA</h5>
+<p>音源分離手法におけるSOTAは時間-周波数軸方向でマスキング処理を施しているのが特徴的(音声の生データからDNNを使って直接推定する研究もあるにはある[119])。</p>
+<p>時間ー周波数軸方向で処理をする理由は主に3つある。</p>
+<ol>
+<li>生の音声データは時間ー周波数軸方向でより構造が顕著になる。</li>
+<li>畳み込みにより、複数周波数の合成が可能となり、処理手法の単純化ができる</li>
+<li>生の音源は時間ー周波数軸方向だとスパースなデータとなり、分離が容易になる</li>
+</ol>
+<h5>時間ー周波数軸方向のマスキング</h5>
+<p>混合された音源のスペクトル <span class="math"><script type="math/tex">X_m(f,t)</script></span> の時刻 <span class="math"><script type="math/tex">t</script></span> 、 周波数 <span class="math"><script type="math/tex">f</script></span>　における分離マスク <span class="math"><script type="math/tex">M_{m,i}(f,t)</script></span> を使うことでスペクトルの分離を行う。</p>
+<span class="math"><script type="math/tex; mode=display">\hat{S}_{m,i}(f,t) = M_{m,i}(f,t)X_m(f,t) \tag{2} \\\\
+</script></span>
+<p>は <span class="math"><script type="math/tex">m</script></span> 番目のマイクチャンネルの <span class="math"><script type="math/tex">i</script></span> 番目のソースを示している。</p>
+<p><span class="math"><script type="math/tex">X_m(f,t)</script></span> は短時間フーリエ変換(STFT)を使って計算される。<br>
+他にはconstant-Q や mel スペクトログラムを使うこともできる。</p>
+<p>しかしながら、これら2つの特徴量を使うことは情報の損失などを理由にあまり一般的ではなくなっている。</p>
+<h5>単一音源へのDL的なアプローチ</h5>
+<p>2つのカテゴリに分類可能。</p>
+<ol>
+<li>混合入力 <span class="math"><script type="math/tex">X(f,t)</script></span> から分離マスク <span class="math"><script type="math/tex">M_i(f,t)</script></span> を予測するのが目的</li>
+<li>音源スペクトル <span class="math"><script type="math/tex">S_i(f,t)</script></span> を直接予測する([120])</li>
+</ol>
+<p>これらの場合のDLは教師あり学習を基礎としている。<br>
+目標値となるマスクはバイナリーな値をとるか、連続値([0,1])をとる。<br>
+手法として</p>
+<ul>
+<li>
+<p>畳み込みの使用[121]</p>
+</li>
+<li>
+<p>再帰層の使用[122]<br>
+がある。</p>
+</li>
+<li>
+<p>従来の平均二乗損失(MSE)を使うのではなく、設計された損失関数が開発されている[123]</p>
+</li>
+</ul>
+<h5>クラスタリング</h5>
+<ul>
+<li>deep clustering は教師ありのDLを使って各々の時間ー周波数地点におけるembeddingベクトルを計算することを目的としており、これを教師なし的な手法でクラスタリングする[124]</li>
+</ul>
+<p>上記のアプローチは訓練データに出現しない音源の分離を行うことを可能としている。</p>
+<ul>
+<li>この手法を発展させて、それぞれの音源に対するattractorベクトルを予測し、単一チャンネルからの音源分離においてSOTAの結果を得るのに使われているattractor networkというのがある[125]</li>
+</ul>
+<h5>複数チャンネルの音データによる音源分離</h5>
+<p>複数チャネルを使うと、音源の位置情報も加味することができるので音源分離の精度向上を行うことができる。</p>
+<p>DLを使ったアプローチはいくつか存在する。<br>
+最も多いのは単一チャネルと同様のアプローチでDLを使う方法</p>
+<ul>
+<li>
+<p>目標となるスペクトラムや分離マスクをモデル化[126]。このような場合、目的となるのはスペクトル的な特徴、特質をDLヲを使ってモデル化することにある。</p>
+</li>
+<li>
+<p>位置情報も情報として加えることができる[127]</p>
+</li>
+<li>
+<p>DNNを使って複数チャンネルに対するマスクの重みを推定することも可能[128]</p>
+</li>
+</ul>
+<h5>環境音</h5>
+<p>環境音はそれぞれの音源同士が独立で、情報そのものがスパースなのが特徴。<br>
+音楽データはそれぞれの音源同士が高い相関を持っている。</p>
+<h4>3-B-2) Audio Enhancement:</h4>
+<p>スピーチ強化の技術はノイズを抑えることでスピーチの質を上げることが目的。</p>
+<ul>
+<li>ノイズ除去は、明確な手法[129]であれ、暗示的な手法[130],[131]であれノイズに強いASRシステムの構成には非常に重要である。</li>
+<li>従来の技術[129]</li>
+<li>直接クリアなスピーチをDNNを使って再構築する[132],[133]</li>
+<li>ノイズの混じった信号からそれを取り除くマスクを推定する[134]-[136]</li>
+</ul>
+<p>DL的なアプローチでは従来手法ではできなかった時間依存のノイズをモデル化することが可能となっている。<br>
+その他の種類のネットワークがスピーチ強化のために開発されている</p>
+<ul>
+<li>ノイズ除去オートエンコーダ(denoising autoencoder)[137]</li>
+<li>CNN[138]</li>
+<li>RNN[139]</li>
+</ul>
+<h5>GAN</h5>
+<ul>
+<li>GANがノイズありのスピーチに対する強化に有用であることが示されている[58] (ノイズありの信号からノイズのないクリーンな信号に変換するタスク)。</li>
+<li>log-melスペクトルで表現されているスピーチに対してGANが適用された[59]</li>
+</ul>
+<p>GANによって補強されたスピーチがASRシステムに使われても、あまり効果はなかった。</p>
+<h4>3-B-3) Generative Models:</h4>
+<p>音声データから学習した特徴量を元に、リアルな音声データを合成する。<br>
+生成される音声データは訓練データとして投入されたものに近いものでなければならない。</p>
+<p>スピーチ生成での必要な条件</p>
+<ul>
+<li>訓練に使う抽出された音源が判別可能である</li>
+<li>生成されるデータは独自のもの</li>
+<li>生成されるデータに多様性</li>
+<li>訓練時間が短い</li>
+<li>生成時間が短い(理想はリアルタイム)</li>
+</ul>
+<p>入力として使うデータとしてはスペクトログラム的な表現か生のデータ表現がある。<br>
+スペクトログラム的な表現は音声合成の段階でGriffin-Limアルゴリズム[65]を逆フーリエ変換[140]と共に位相を再構築する必要があるが、良質な音声データを合成するには至らない<br>
+これに対してEnd-to-endの方が良い。</p>
+<ul>
+<li>VAEやGAN[141]を使用する場合、音声データは低次元の隠れ状態から合成されることが多い</li>
+<li>ランダムな位相を持った異なった解像度を持つレイヤーを通すことで性能をよくすることもできる[141]</li>
+<li>RNNを用いて系sなんコストの高い損失を計算することで粗い解像度で次のレイヤーの活性化された値に左右されるRNNを結合する[34]</li>
+<li>長いシーケンスを短いものに分割するスパースなRNNをベースとして音声生成モデルもある[35]</li>
+<li>dilated covolutionをWaveNetで結合した[25]ものは、扱いやすいサイズに文脈窓のサイズを導いてくれる</li>
+<li>WaveNetを使うと自己回帰推定はクラス分類問題として捉えることができる。</li>
+<li>文脈情報を使うことで入力をより拡張することが可能となる[25]。<br>
+この文脈情報は全体に渡るglobalなものか、時間に沿って変化するものになる。</li>
+<li>導入されたtext-to-speechシステムが2つのモジュールを構築する[66]。<br>
+1つはNNは入力となるテキストからメルスペクトルを予測する。<br>
+もう1つはWaveNetが予測されたメルスペクトルから合成されたスピーチを生成する。[66]</li>
+</ul>
+<p>WaveNetを用いたモデルはこれまでの性能から大差をつけた結果を残しているが、学習コストが高い。</p>
+<ul>
+<li>並列化されたWaveNetの使用によって学習時間の短縮や様々な応用先において合成そのものにかかる時間の短縮に繋がる([66],[143],[144])</li>
+<li>合成をオートエンコーダ内にある隠れ状態におけるパラメータを使って制御することができる[145]。</li>
+<li>より深いレベルでの音楽生成をDLで行った研究もある[146]</li>
+</ul>
+<h5>生成されたデータの評価方法</h5>
+<p>生成モデルは主観的もしくは客観的に評価することができる。<br>
+音声の判別のしやすさは分類器を通せば客観的に評価することができる。([141])</p>
+<p>もしくは人出で主観的に評価を行う。<br>
+多様性は客観的に評価をすることが可能。</p>
+<ul>
+<li>音声はlog-melスペクトルを使って正規化することが可能で、2つの音声の多様性は平均ユークリッド距離で評価することが可能。</li>
+<li>独自性(originality)は最も近い訓練データからのユークリッド距離で評価ができる[141]<br>
+本物か合成されたデータかを人に判別してもらうTurning Testは非常に難易度が高い。<br>
+例えばWaveNetは従来のSOTAであった結合的もしくはパラメトリックな手法よりもより高いMOSスコアを出している。[25]</li>
+</ul>
+<h2>4. Discussion And Conclusion</h2>
+<h3>4-A. Features</h3>
+<p>従来の手法ではMFCCが最も一般的な特徴量のであったが、log-melスペクトログラムが一番で、生の波形データもしくは複素数のスペクトログラムがDLでは一般的な特徴量として使われている。</p>
+<ul>
+<li>
+<p>生の波形データは人手で設計された特徴量を避ける(より良い特徴量をモデルそのものから抽出させるため)<br>
+計算コストが高く、より多くのデータが必要<br>
+log-melスペクトログラムを使うと上記のデメリットを克服できる<br>
+生の波形データを生成するタスクにおいては、スペクトログラムを使用すると大抵の場合、位相情報を再構築する必要がある。</p>
+</li>
+<li>
+<p>一方で、生の波形データを使った方が解析タスクにおいて性能が向上した落ちう結果もある([25],[147],[148])</p>
+</li>
+<li>
+<p>もしくは従来の特徴量を出力するように最初のレイヤーを学習させる研究もある[18],[19],[23],[24]</p>
+</li>
+</ul>
+<p>そのため、未だにメルスペクトログラムが最も適切な特徴量かどうかははっきりとしていない。</p>
+<h3>4-B. Models</h3>
+<p>DLがSVMやGMM-HMMsに取って代わった。<br>
+非負行列分解(non-negative matrix factorization)やWiener methodsによって取り組まれていた音声の補強やノイズ除去はDLによって解決されている。</p>
+<p>複数分野にまたがって、CNNsやRNNs、CRNNsが使われている。<br>
+3つのタイプはどれも一時的なシーケンスをモデルすることができ、シーケンスのクラス分類問題や、ラベリング、変換タスクを解くことができる。<br>
+CNNは一定の受容野をもち、これにより考慮できる文脈情報に制限がかかっている。しかし、それと同時に文脈情報をどれぐらいの幅で取得するかを簡単に変更ができる。</p>
+<p>RNNは理論上では文脈情報を無限の範囲で考慮することができるが、まずはそのよう学習させる必要があ理、モデル構造そのものの調整が困難で有り文脈の考慮する範囲の指定が容易にできない。</p>
+<h4>課題</h4>
+<p>どの状況でどのようなモデルが優れているかは未だにはっきりとしていない。</p>
+<h3>4-C. Data Requirements</h3>
+<p>音声認識用のデータセットを除くと、ほとんどの領域においてデータセットは小規模のものしか存在しない。<br>
+これが原因で、DLのモデルのサイズを大きくすることも難しい。<br>
+</p>
+<h4>他分野との対比(転移学習の限界)</h4>
+<p>画像分野ではImageNet[70]で事前学習させることができるので、特定のタスクにおけるデータ数が少なくても対応ができる。<br>
+同様に、自然言語処理の分野においても巨大なテキストコーパスを利用して学習させた単語予測モデルは他の言語においても良い初期化となっていることがわかっている[149],[150]。<br>
+画像、自然言語処理の分野のような大きなデータセットが音声の世界では存在しない。</p>
+<p>また、音声領域で一般的となるようなデータセットを作成することが難しく、転移学習を適用することができない。<br>
+(特定のタスクに特化したものであれば可能だが、他分野への応用がきかない)</p>
+<h4>転移学習以外の解決策</h4>
+<p>上記の問題を解決するためにも、限られたデータを有効に活用する方法として、転移学習以外の解決策を模索するべきである。</p>
+<h3>4-D. Computational Complexity</h3>
+<p>計算量の増大の利点がDNNの成功によって示された。<br>
+DL用に一般的に使われているのはCPUではなくgeneral-purpose garaphics processing units(GPGPUs)と呼ばれるもの([151])やTPUのような([8])特定タスク用に設計された回路群もある。</p>
+<p>限られた計算資源しか使えない場面(スマホのみで計算したいなど)もあるので、そのためにもコンパクトなモデルを開発していくのも価値のあることだ。</p>
+<h3>4-E. Interpretability and Adaptability</h3>
+<p>DL内のモデルにおいて、特定の箇所がどのようなタスクを解いているのか(どのような情報を抽出しているのか)を解釈することは困難。<br>
+それぞれのニューロンが目標となるタスクに対してどのような値の変化を示すかを研究した例もある([16],[152])。<br>
+もしくは、どの入力によって予測値がされているのかを調査した例もある([153],[154])。</p>
+<h2>References</h2>
+<p>文章中の[]で囲まれた数字が以下の文献に対応しています。<br>
+[1] F. Rosenblatt, “The perceptron: A probabilistic model for information
+storage and organization in the brain,” Psychological Review, vol. 65,
+no. 6, p. 386, 1958.<br>
+[2] D. E. Rumelhart, G. E. Hinton, and R. J. Williams, “Learning representations by back-propagating errors,” Nature, vol. 323, no. 6088, p.
+533, 1986.<br>
+[3] G. Hinton, L. Deng et al., “Deep neural networks for acoustic modeling
+in speech recognition: The shared views of four research groups,” IEEE
+Signal Processing Magazine, vol. 29, no. 6, pp. 82–97, 2012.<br>
+[4] A. Krizhevsky, I. Sutskever, and G. E. Hinton, “Imagenet classification
+with deep convolutional neural networks,” in NIPS, 2012.<br>
+[5] A.-R. Mohamed, G. Dahl, and G. Hinton, “Deep belief networks for
+phone recognition,” in NIPS workshop on deep learning for speech
+recognition and related applications, vol. 1, no. 9, 2009, pp. 39–47.<br>
+[6] Y. LeCun, B. Boser et al., “Backpropagation applied to handwritten
+zip code recognition,” Neural Computation, vol. 1, no. 4, pp. 541–551,1989.<br>
+[7] S. Hochreiter and J. Schmidhuber, “Long Short-Term Memory,” Neural
+Computation, vol. 9, no. 8, pp. 1735–1780, 1997.<br>
+[8] N. P. Jouppi, C. Young et al., “In-datacenter performance analysis of
+a tensor processing unit,” in ISCA. IEEE, 2017, pp. 1–12.<br>
+[9] “AudioSet: A large-scale dataset of manually annotated audio events,”
+<a href="https://research.google.com/audioset/">https://research.google.com/audioset/</a>, accessed: 2019-01-15.<br>
+[10] A. Mohamed, G. Hinton, and G. Penn, “Understanding how Deep
+Belief Networks Perform Acoustic Modelling,” in ICASSP, 2012.<br>
+[11] S. Furui, “Speaker-independent isolated word recognition based on
+emphasized spectral dynamics,” in ICASSP, 1986.<br>
+[12] S. Davis and P. Mermelstein, “Comparison of Parametric Representations for Monosyllabic Word Recognition in Continuously Spoken
+Sentences,” IEEE Transactions on ASSP, vol. 28, no. 4, pp. 357 – 366,1980.<br>
+[13] H. Purwins, B. Blankertz, and K. Obermayer, “A new method for
+tracking modulations in tonal music in audio data format,” in IJCNN,2000.<br>
+[14] V. Lostanlen and C.-E. Cella, “Deep Convolutional Networks on the
+Pitch Spiral For Music Instrument Recognition,” in ISMIR, 2016.<br>
+[15] R. M. Bittner, B. McFee et al., “Deep salience representations for f0
+estimation in polyphonic music,” in ISMIR, 2017.<br>
+[16] J. Schlüter and S. Böck, “Improved Musical Onset Detection with
+Convolutional Neural Networks,” in ICASSP, 2014.<br>
+[17] J. Chen, Y. Wang, and D. Wang, “A feature study for classificationbased speech separation at low signal-to-noise ratios,” IEEE/ACM TASLP, vol. 22, no. 12, pp. 1993–2002, 2014.<br>
+[18] T. N. Sainath, B. Kingsbury et al., “Learning filter banks within a deep
+neural network framework,” in ASRU, 2013.<br>
+[19] E. Cakir, E. C. Ozan, and T. Virtanen, “Filterbank Learning for Deep
+Neural Network Based Polyphonic Sound Event Detection,” in IJCNN, 2016.<br>
+[20] N. Jaitly and G. Hinton, “Learning a Better Representation of Speech
+Soundwaves using Restricted Boltzmann Machines,” in ICASSP, 2011.<br>
+[21] D. Palaz, R. Collobert, and M. Doss, “Estimating Phoneme Class
+Conditional Probabilities From Raw Speech Signal using Convolutional
+Neural Networks,” in Interspeech, 2014.<br>
+[22] Z. Tüske, P. Golik, R. Schlüter, and H. Ney, “Acoustic Modeling
+with Deep Neural Networks using Raw Time Signal for LVCSR,” in
+Interspeech, 2014.<br>
+[23] Y. Hoshen, R. Weiss, and K. Wilson, “Speech Acoustic Modeling from
+Raw Multichannel Waveforms,” in ICASSP, 2015.<br>
+[24] T. N. Sainath, R. J. Weiss, K. W. Wilson, A. Senior, and O. Vinyals,
+“Learning the Speech Front-end with Raw Waveform CLDNNs,” in
+Interspeech, 2015.<br>
+[25] A. Oord, S. Dieleman, H. Zen, K. Simonyan, O. Vinyals, A. Graves,
+N. Kalchbrenner, A. Senior, and K. Kavukcuoglu, “Wavenet: A generative model for raw audio,” in SSW, vol. 125, 2016.<br>
+[26] I. J. Goodfellow, Y. Bengio, and A. Courville, Deep learning. MIT
+Press, 2016.<br>
+[27] M. Holschneider, R. Kronland-Martinet, J. Morlet, and
+P. Tchamitchian, “Wavelets, time-frequency methods and phase
+space,” Springer, pp. 289–297, 1989.<br>
+[28] L. Chen, G. Papandreou, I. Kokkinos, K. Murphy, and A. Yuille,
+“Deeplab: Semantic image segmentation with deep convolutional nets,
+atrous convolution, and fully connected crfs,” arXiv:1606.00915, 2016.<br>
+[29] F. Yu and V. Koltun, “Multi-scale context aggregation by dilated
+convolutions,” arXiv:1511.07122, 2015.<br>
+[30] S. Watanabe, Algebraic geometry and statistical learning theory. Cambridge University Press, 2009, vol. 25.<br>
+[31] O. Ronneberger, P. Fischer, and T. Brox, “U-net: Convolutional networks for biomedical image segmentation,” in MICCAI, 2015, pp. 234–
+241.<br>
+[32] J. L. Elman, “Finding structure in time,” Cognitive science, vol. 14,
+no. 2, pp. 179–211, 1990.<br>
+[33] Z. C. Lipton, J. Berkowitz, and C. Elkan, “A critical review of recurrent
+neural networks for sequence learning,” arXiv:1506.00019, 2015.<br>
+[34] S. Mehri, K. Kumar, I. Gulrajani, R. Kumar, S. Jain, J. Sotelo,
+A. Courville, and Y. Bengio, “SampleRNN: An unconditional endto-end neural audio generation model,” arXiv:1612.07837, 2016.
+[35] N. Kalchbrenner, E. Elsen, K. Simonyan, S. Noury, N. Casagrande,
+E. Lockhart, F. Stimberg, A. van den Oord, S. Dieleman, and
+K. Kavukcuoglu, “Efficient Neural Audio Synthesis,” in PMLR, vol. 80,
+2018, pp. 2410–2419.<br>
+[36] J. Li, A. Mohamed, G. Zweig, and Y. Gong, “LSTM Time and
+Frequency Recurrence for Automatic Speech Recognition,” in ASRU,
+2015.<br>
+[37] A. Graves, S. Fernandez, and J. Schmidhuber, “Multi-Dimensional
+Recurrent Neural Networks,” in ICANN, 2007.<br>
+[38] J. Li, A. Mohamed, G. Zweig, and Y. Gong, “Exploring Multidimensional LSTMs for Large Vocabulary ASR,” in ICASSP, 2016.
+JOURNAL OF SELECTED TOPICS OF SIGNAL PROCESSING, VOL. 14, NO. 8, MAY 2019 12<br>
+[39] T. N. Sainath and B. Li, “Modeling Time-Frequency Patterns with
+LSTM vs. Convolutional Architectures for LVCSR Tasks,” in Interspeech, 2016, pp. 813–817.<br>
+[40] H. Sak, A. Senior, and F. Beaufays, “Long Short-Term Memory
+Recurrent Neural Network Architectures for L
+JOURNAL OF SELECTED TOPICS OF SIGNAL PROCESSING, VOL. 14, NO. 8, MAY 2019 13<br>
+[98] S. Bansal, H. Kamper, A. Lopez, and S. Goldwater, “Towards speechto-text translation without speech recognition,” arXiv:1702.03856,
+2017.<br>
+[99] Y. Bayle, “Deep learning for music,” 2018. [Online]. Available:
+<a href="https://github.com/ybayle/awesome-deep-learning-music">https://github.com/ybayle/awesome-deep-learning-music</a><br>
+[100] F. Eyben, S. Böck, B. Schuller, and A. Graves, “Universal Onset Detection with Bidirectional Long Short-Term Memory Neural Networks,”
+in ISMIR, 2010.<br>
+[101] B. McFee and D. P. W. Ellis, “Better beat tracking through robust onset
+aggregation,” in ICASSP, 2014.<br>
+[102] S. Durand, J. P. Bello, B. David, and G. Richard, “Tracking using
+an ensemble of convolutional networks,” IEEE/ACM Transactions on
+ASLP, vol. 25, no. 1, pp. 76–89, Jan. 2017.<br>
+[103] S. Böck, F. Krebs, and G. Widmer, “Joint Beat and Downbeat Tracking
+with Recurrent Neural Networks,” in ISMIR, 2016.<br>
+[104] M. Fuentes, B. McFee, H. C. Crayencour, S. Essid, and J. P. Bello,
+“Analysis of common design choices in deep learning systems for
+downbeat tracking,” in ISMIR, 2018.<br>
+[105] K. Ullrich, J. Schlüter, and T. Grill, “Boundary Detection in Music
+Structure Analysis using Convolutional Neural Networks,” in ISMIR,
+2014.<br>
+[106] B. McFee and J. P. Bello, “Structured Training for Large-Vocabulary
+Chord Recognition,” in ISMIR, 2017, pp. 188–194.<br>
+[107] F. Korzeniowski and G. Widmer, “Feature Learning for Chord Recognition: The Deep Chroma Extractor,” in ISMIR, 2016.<br>
+[108] H. Schreiber and M. Müller, “A Single-Step Approach to Musical
+Tempo Estimation using a Convolutional Neural Network,” in ISMIR,
+2018.<br>
+[109] S. Dieleman and B. Schrauwen, “End-to-end learning for music audio,”
+in ICASSP, 2014.<br>
+[110] K. Choi, G. Fazekas, and M. B. Sandler, “Automatic Tagging Using
+Deep Convolutional Neural Networks,” in ISMIR, 2016.<br>
+[111] J. Lee, J. Park, K. L. Kim, and J. Nam, “Sample-level deep convolutional neural networks for music auto-tagging using raw waveforms,”
+in Proc. Sound Music Comput. Conf., 2017, pp. 220–226.<br>
+[112] A. Mesaros, T. Heittola et al., “Detection and classification of acoustic scenes and events: Outcome of the DCASE 2016 challenge,”
+IEEE/ACM Transactions on ASLP, vol. 26, no. 2, pp. 379–393, 2018.<br>
+[113] G. Parascandolo, H. Huttunen, and T. Virtanen, “Recurrent Neural Networks for Polyphonic Sound Event Detection in Real Life Recordings,”
+in ICASSP, 2016.<br>
+[114] T. Sercu and V. Goel, “Dense prediction on sequences with time-dilated
+convolutions for speech recognition,” in NIPS Workshop on End-to-end
+Learning for Speech and Audio Processing, Nov. 2016.<br>
+[115] S. Chakrabarty and E. A. P. Habets, “Multi-speaker localization using
+convolutional neural network trained with noise,” in NIPS Workshop
+on Machine Learning for Audio Processing, 2017.<br>
+[116] E. L. Ferguson, S. B. Williams, and C. T. Jin, “Sound Source
+Localization in a Multipath Environment Using Convolutional Neural
+Networks,” in ICASSP, 2018.<br>
+[117] F. Vesperini, P. Vecchiotti, E. Principi, S. Squartini, and F. Piazza, “A
+neural network based algorithm for speaker localization in a multi-room
+environment,” in proc. in IEEE International Workshop on Machine
+Learning for Signal Processing, 2016.<br>
+[118] S. Adavanne, A. Politis, and T. Virtanen, “Direction of arrival estimation for multiple sound sources using convolutional recurrent neural
+network,” in ESPC, 2018.<br>
+[119] A. Pandey and D. Wang, “A New Framework for Supervised Speech
+Enhancement in the Time Domain,” in Interspeech, 2018.<br>
+[120] Y. Wang, A. Narayanan, and D. Wang, “On Training Targets for
+Supervised Speech Separation,” IEEE/ACM Transactions on ASLP,
+vol. 22, no. 12, pp. 1849–1858, 2014.<br>
+[121] S.-W. Fu, Y. Tsao, and X. Lu, “SNR-Aware Convolutional Neural
+Network Modeling for Speech Enhancement,” in Interspeech, 2016.<br>
+[122] P. Huang, M. Kim, M. Hasegawa-Johnson, and P. Smaragdis, “Joint
+optimization of masks and deep recurrent neural networks for monaural
+source separation,” IEEE/ACM Transactions on ASLP, vol. 23, no. 12,
+pp. 2136 – 2147, 2015.<br>
+[123] M. Kolbæk, Z.-H. Tan, and J. Jensen, “Monaural speech enhancement
+using deep neural networks by maximizing a short-time objective
+intelligibility measure,” in ICASSP, 2018.<br>
+[124] Y. Isik, J. Le Roux, Z. Chen, S. Watanabe, and J. R. Hershey, “SingleChannel Multi-Speaker Separation using Deep Clustering,” in Proc.
+Interspeech, 2016, pp. 545–549.<br>
+[125] Z. Chen, Y. Luo, and N. Mesgarani, “Deep attractor network for singlemicrophone speaker separation,” in ICASSP, 2017.<br>
+[126] A.A.Nugraha, A.Liutkus, and E.Vincent, “Multichannel audio source
+separation with deep neural networks,” IEEE/ACM Transactions on
+ASLP, vol. 24, no. 9, pp. 1652–1664, 2016.<br>
+[127] Q. Liu, Y. Xu, P. J. Jackson, W. Wang, and P. Coleman, “Iterative
+Deep Neural Networks for Speaker-Independent Binaural Blind Speech
+Separation,” in ICASSP, 2018.<br>
+[128] X. Xiao, S. Watanabe et al., “Deep beamforming networks for multichannel speech recognition,” in ICASSP, 2016.<br>
+[129] J. Chen, J. Benesty, Y. A. Huang, and E. J. Diethorn, “Fundamentals
+of noise reduction,” in Springer Handbook of Speech Processing.
+Springer, 2008, pp. 843–872.<br>
+[130] Y. Xu, J. Du, L.-R. Dai, and C.-H. Lee, “An experimental study on
+speech enhancement based on deep neural networks,” IEEE Signal
+Processing Letters, vol. 21, no. 1, pp. 65–68, 2014.<br>
+[131] B. Li, T. N. Sainath, R. J. Weiss, K. W. Wilson, and M. Bacchiani,
+“Neural Network Adaptive Beamforming for Robust Multichannel
+Speech Recognition,” in Interspeech, 2016.<br>
+[132] X. Feng, Y. Zhang, and J. Glass, “Speech feature denoising and
+dereverberation via deep autoencoders for noisy reverberant speech
+recognition,” in ICASSP, 2014.<br>
+[133] Y. Xu, J. Du, L.-R. Dai, and C.-H. Lee, “A regression approach
+to speech enhancement based on deep neural networks,” IEEE/ACM
+Transactions on ASLP, vol. 23, no. 1, pp. 7–19, 2015.<br>
+[134] D. Wang and J. Chen, “Supervised speech separation based on deep
+learning: an overview,” arXiv:1708.07524, 2017.<br>
+[135] B. Li and K. C. Sim, “A spectral masking approach to noise-robust
+speech recognition using deep neural networks,” IEEE/ACM Transactions on ASLP, vol. 22, no. 8, pp. 1296–1305, 2014.<br>
+[136] A. Narayanan and D. Wang, “Ideal ratio mask estimation using deep
+neural networks for robust speech recognition,” in ICASSP, 2013.<br>
+[137] X. Lu, Y. Tsao, S. Matsuda, and C. Hori, “Speech enhancement based
+on deep denoising autoencoder.” in Interspeech, 2013.<br>
+[138] S.-W. Fu, Y. Tsao, and X. Lu, “SNR-Aware Convolutional Neural
+Network Modeling for Speech Enhancement,” in Interspeech, 2016.<br>
+[139] F. Weninger, H. Erdogan, and et al., “Speech enhancement with LSTM
+recurrent neural networks and its application to noise-robust ASR,” in
+ICLVASS, 2015.<br>
+[140] Y. Wang, R. Skerry-Ryan, D. Stanton, Y. Wu, R. J. Weiss, N. Jaitly,
+Z. Yang, Y. Xiao, Z. Chen, S. Bengio, and others, “Tacotron: Towards
+end-to-end speech synthesis,” in In Proc. Interspeech, 2017, pp. 4006–
+4010.<br>
+[141] C. Donahue, J. McAuley, and M. Puckette, “Synthesizing Audio with
+Generative Adversarial Networks,” arXiv:1802.04208, 2018.<br>
+[142] A. van den Oord, Y. Li, I. Babuschkin, K. Simonyan, O. Vinyals,
+K. Kavukcuoglu, G. v. d. Driessche, E. Lockhart, L. C. Cobo, F. Stimberg et al., “Parallel WaveNet: Fast high-fidelity speech synthesis,”
+PMLR, vol. 80, pp. 3918–3926, 2018.<br>
+[143] K. Chen, B. Chen, J. Lai, and K. Yu, “High-quality voice conversion
+using spectrogram-based wavenet vocoder,” Interspeech, 2018.<br>
+[144] S.-Y. Chang, B. Li, G. Simko, T. N. Sainath, A. Tripathi, A. van den
+Oord, and O. Vinyals, “Temporal modeling using dilated convolution
+and gating for voice-activity-detection,” in ICASSP, 2018.<br>
+[145] J. Engel, C. Resnick, A. Roberts, S. Dieleman, D. Eck, K. Simonyan,
+and M. Norouzi, “Neural Audio Synthesis of Musical Notes with
+WaveNet Autoencoders,” Proc. Int. Conf. Mach. Learn., vol. 70, pp.
+1068–1077, 2017.<br>
+[146] J.-P. Briot, G. Hadjeres, and F. Pachet, “Deep Learning Techniques for
+Music Generation - A Survey,” arXiv:1709.01620, 2017.<br>
+[147] P. Ghahremani, V. Manohar, D. Povey, and S. Khudanpur, “Acoustic
+modelling from the signal domain using CNNs,” in Interspeech, 2016.<br>
+[148] H. B. Sailor and H. A. Patil, “Novel unsupervised auditory filterbank
+learning using convolutional RBM for speech recognition,” IEEE/ACM
+Transactions on ASLP, vol. 24, no. 12, pp. 2341–2353, 2016.<br>
+[149] M. E. Peters, M. Neumann, M. Iyyer, M. Gardner, C. Clark, K. Lee,
+and L. Zettlemoyer, “Deep contextualized word representations,” in
+NAACL, 2018.<br>
+[150] J. Devlin, M. Chang, K. Lee, and K. Toutanova, “BERT: pretraining of deep bidirectional transformers for language understanding,”
+arXiv:1810.04805, 2018.<br>
+[151] S. Che, M. Boyer, J. Meng, D. Tarjan, J. W. Sheaffer, and K. Skadron,
+“A performance study of general-purpose applications on graphics
+processors using cuda,” Journal of parallel and distributed computing,
+vol. 68, no. 10, pp. 1370–1380, 2008.<br>
+[152] S. Tan, K. C. Sim, and M. Gales, “Improving the interpretability of
+deep neural networks with stimulated learning,” in ASRU, 2015.<br>
+[153] J. Schlüter, “Learning to pinpoint singing voice from weakly labeled
+examples,” in ISMIR, 2016.
+JOURNAL OF SELECTED TOPICS OF SIGNAL PROCESSING, VOL. 14, NO. 8, MAY 2019 14<br>
+[154] S. Mishra, B. L. Sturm, and S. Dixon, “Local interpretable modelagnostic explanations for music content analysis,” in ISMIR, 2017.</p>
+
+  </body>
+</html>
