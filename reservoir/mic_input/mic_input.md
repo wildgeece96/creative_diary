@@ -89,8 +89,8 @@ cnt = 0
 fig, ax = plt.subplots(1, 1, figsize=(5, 3))
 zero_picture = np.zeros([N_MELS, FRAME_NUM])
 # 初期値の範囲を-2.0~3.0にしておく
-zero_picture[:, 0] = 0.0
-zero_picture[:, 1] = -2.0
+zero_picture[:, 0] = 1.0
+zero_picture[:, 1] = -3.0
 picture = ax.imshow(zero_picture)
 fig.colorbar(picture, ax=ax)
 ax.set_yticks(np.arange(0, N_MELS, 20))
